@@ -11,6 +11,7 @@ export default function MorePage() {
                     placeholder='username'
                 />
                 <TextInput
+                    secureTextEntry={true}
                     style={styles.textInput}
                     placeholder='password'
                 />

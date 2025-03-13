@@ -28,7 +28,7 @@ export default function Navigation() {
           } else if (route.name === 'Order') {
             iconName = focused ? 'order' : 'order';
           } else if (route.name === 'Rewards') {
-            iconName = focused ? 'money' : 'money';
+            iconName = focused ? 'shopping-outline' : 'shopping-outline';
           }else if (route.name === 'Earn Points'){
             iconName = focused ? 'qrcode' : 'qrcode';
           } else if (route.name === 'More'){
