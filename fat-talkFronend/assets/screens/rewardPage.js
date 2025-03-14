@@ -1,14 +1,16 @@
 import React, { useState, useEffect, use } from 'react'
-import { View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Modal, SafeAreaView, TouchableOpacity, Dimensions, Image, ScrollView } from 'react-native'
 import Navigation from '../../src/Navigation'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import API from '../../src/APIs/API'
 import { TouchableWithoutFeedback } from 'react-native';
+import SellItemsModal from '../components/sellItemsModal'
 
 export default function RewardPage({ navigation }) {
     const [searchValue, setSearchValue] = useState('');
     const [data, setData] = useState([]);
     const [count, setCount] = useState({});
+    const [sellModal, setSellModal] = useState(false);
 
 
     const [liked, setLiked] = useState({});
@@ -58,25 +60,53 @@ export default function RewardPage({ navigation }) {
         }));
     };
 
-
-
-
     return (
-        <SafeAreaView>
-            {/* <Text style={styles.container}> Gifs page</Text> */}
+        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.seachContainer}>
                 <TextInput
                     style={styles.textInput}
-                    placeholder='Looking up for something'
-                    onChange={(e) => handleInputValue(e)}
+                    placeholder="Looking up for something"
+                    onChangeText={(text) => setSearchValue(text)}
                     value={searchValue}
-                // value='dsadasdas'
                 />
                 <TouchableWithoutFeedback style={styles.magnifyIcon}>
                     <Icon name="magnify" size={24} />
                 </TouchableWithoutFeedback>
             </View>
-                <Text style={styles.totalItems}>Total items: {data.length} </Text>
+
+            <Text style={styles.totalItems}>Total items: {data.length} </Text>
+
+            {sellModal && (
+                <SellItemsModal
+                sellModal={sellModal}
+                setSellModal={setSellModal}
+                />
+            )}
+
+            {/* Sell Item Modal */}
+            {/* <Modal
+                visible={sellModal}
+                transparent={true}
+                animationType="slide"
+                onRequestClose={() => setSellModal(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>Sell Your Item</Text>
+                        <TouchableOpacity onPress={() => setSellModal(false)}>
+                            <Text style={styles.closeButton}>Close</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal> */}
+            {/* Floating Sell Button */}
+            <TouchableOpacity
+                style={styles.sellItemBtn}
+                onPress={() => setModalVisible(true)}
+            >
+                <Icon name="plus" size={30} color="white" />
+            </TouchableOpacity>
+
             <ScrollView contentContainerStyle={styles.scrollViewContainer}>
                 <View style={styles.gridContainer}>
                     {data.map((item) => (
@@ -84,7 +114,7 @@ export default function RewardPage({ navigation }) {
                             <View style={styles.imageContainer}>
                                 <Image
                                     source={{
-                                        uri: 'https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520',
+                                        uri: "https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
                                     }}
                                     style={styles.image}
                                 />
@@ -94,13 +124,7 @@ export default function RewardPage({ navigation }) {
                             </View>
                             <Text>{item.title} Count on this: {count[item.id]}</Text>
                             <View style={styles.btnContainer}>
-                                {/* <TouchableOpacity style={styles.btnStyle} onPress={() => handleDecrement(item.id)}>
-                                    <Text>-</Text>
-                                </TouchableOpacity> */}
-                                {/* <TouchableOpacity style={styles.btnStyle} onPress={() => handleIncrement(item.id)}>
-                                    <Text>+</Text>
-                                </TouchableOpacity> */}
-                                    <TouchableOpacity style={styles.buyBtn} onPress={() => handleIncrement(item.id)}>
+                                <TouchableOpacity style={styles.buyBtn} onPress={() => handleIncrement(item.id)}>
                                     <Text>Buy now</Text>
                                 </TouchableOpacity>
                             </View>
@@ -108,10 +132,18 @@ export default function RewardPage({ navigation }) {
                     ))}
                 </View>
             </ScrollView>
-            {/* <Button title='Back to Home page' onPress={() => navigation.navigate('Home')}/> */}
+
+            {/* ✅ Move the button outside ScrollView */}
+            <TouchableOpacity style={styles.sellItemBtn} onPress={() => setSellModal(true)}>
+                <Icon name="plus" size={30} color="white" />
+            </TouchableOpacity>
         </SafeAreaView>
-    )
+    );
+
 }
+
+
+const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     container: {
@@ -193,12 +225,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff',
-    }, 
+    },
     buyBtn: {
-        // borderColor: 'gray',
         borderRadius: 3,
         padding: 8,
-        // height: 40,
         width: 100,
         justifyContent: 'center',
         flex: 1,
@@ -206,10 +236,52 @@ const styles = StyleSheet.create({
         // alignContent: 'center',
         backgroundColor: '#FFC72C',
     },
-    totalItems:{
+    totalItems: {
         marginBottom: 10,
         fontSize: 14,
         fontWeight: 600,
         marginLeft: 10,
-    }
+    },
+    sellItemBtn: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        backgroundColor: '#007bff', // Change to a visible color
+        padding: 15,
+        borderRadius: 50,
+        width: 60,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: 300,
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+        height: height * 0.8,
+    },
+    modalText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    closeButton: {
+        marginTop: 10,
+        color: '#007bff',
+        fontWeight: 'bold',
+    },
 })
