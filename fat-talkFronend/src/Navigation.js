@@ -6,7 +6,7 @@ import Home from '../assets/screens/home';
 import OrderPage from '../assets/screens/orderPage';
 import PointsPage from '../assets/screens/pointsPage';
 import MorePage from '../assets/screens/morePage';
-import RewardPage from '../assets/screens/rewardPage';
+import ItemsPage from '../assets/screens/itemsPage';
 import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -27,7 +27,7 @@ export default function Navigation() {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Order') {
             iconName = focused ? 'order' : 'order';
-          } else if (route.name === 'Rewards') {
+          } else if (route.name === 'Itmes') {
             iconName = focused ? 'shopping-outline' : 'shopping-outline';
           }else if (route.name === 'Earn Points'){
             iconName = focused ? 'qrcode' : 'qrcode';
@@ -44,7 +44,7 @@ export default function Navigation() {
     >
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Order" component={OrderPage} />
-        <Tab.Screen name="Rewards" component={RewardPage} /> 
+        <Tab.Screen name="Itmes" component={ItemsPage} /> 
         <Tab.Screen name="Earn Points" component={PointsPage} /> 
         <Tab.Screen name="More" component={MorePage} /> 
         {/* <Tab.Screen name="Gifs" component={ContactUs} /> */}

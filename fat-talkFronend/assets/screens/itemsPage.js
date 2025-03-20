@@ -6,7 +6,7 @@ import API from '../../src/APIs/API'
 import { TouchableWithoutFeedback } from 'react-native';
 import SellItemsModal from '../components/sellItemsModal'
 
-export default function RewardPage({ navigation }) {
+export default function ItemsPage({ navigation }) {
     const [searchValue, setSearchValue] = useState('');
     const [data, setData] = useState([]);
     const [count, setCount] = useState({});
@@ -29,7 +29,7 @@ export default function RewardPage({ navigation }) {
     useEffect(() => {
         async function gettingData() {
             try {
-                const res = await API.searchGifs('/photos');
+                const res = await API.callAllItems();
                 const initialData = res.data.slice(0, 50);
                 setData(initialData);
 
@@ -78,8 +78,8 @@ export default function RewardPage({ navigation }) {
 
             {sellModal && (
                 <SellItemsModal
-                sellModal={sellModal}
-                setSellModal={setSellModal}
+                    sellModal={sellModal}
+                    setSellModal={setSellModal}
                 />
             )}
 
@@ -122,12 +122,21 @@ export default function RewardPage({ navigation }) {
                                     <Icon name="heart" size={24} color={liked[item.id] ? "red" : "white"} />
                                 </TouchableOpacity>
                             </View>
-                            <Text>{item.title} Count on this: {count[item.id]}</Text>
+                            <View style={{ marginTop: 10, gap: 5 }}>
+                                <Text style={{ fontWeight: 600, fontSize: 14 }}>{item.description}</Text>
+                                <Text style={{ fontWeight: 400, fontSize: 12 }}>{item.description}</Text>
+                                <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <Text style={{ fontSize: 14, color: 'gray', fontWeight: 500 }}>${item.price}</Text>
+                                    <Text style={{ fontWeight: 400, fontSize: 12 }}>{item.location}</Text>
+                                </View>
+                            </View>
+
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity style={styles.buyBtn} onPress={() => handleIncrement(item.id)}>
-                                    <Text>Buy now</Text>
+                                    <Text>Add to cart</Text>
                                 </TouchableOpacity>
                             </View>
+
                         </View>
                     ))}
                 </View>
@@ -197,7 +206,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: 150,
+        height: 225,
         borderRadius: 5,
     },
     likeButton: {

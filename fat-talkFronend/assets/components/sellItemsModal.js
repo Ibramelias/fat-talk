@@ -26,6 +26,13 @@ export default function SellItemsModal({ sellModal, setSellModal }) {
         { label: "Cloth", value: "cloth" },
     ]);
 
+
+    const handleTextChange = (text) => {
+        console.log("New text:", text); // Log the actual text value
+        setDesc(text); // Update state correctly
+    };
+    console.log("Hello Descccc", desc, items)
+    
     // Function to pick an image
     const pickImage = async () => {
         // Ask for permissions
@@ -46,6 +53,7 @@ export default function SellItemsModal({ sellModal, setSellModal }) {
             setImage(result.assets[0].uri);
         }
     }
+
 
 
     const getLocation = async () => {
@@ -107,7 +115,7 @@ export default function SellItemsModal({ sellModal, setSellModal }) {
                             multiline={true} // Enables multi-line input
                             numberOfLines={4} // Initial height (optional)
                             value={desc}
-                            onChangeText={setDesc}
+                            onChangeText={handleTextChange}
                         />
                     </View>
 
