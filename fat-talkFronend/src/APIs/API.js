@@ -1,7 +1,14 @@
 import axios from "axios";
 
 export default {
-    callAllItems: function(query){
+    callAllItems: function (query) {
         return axios.get('http://localhost:5262/items')
-    }
+    },
+
+    saveNewItem: function (userId, items) {
+        return axios.post(`http://localhost:5262/users/${userId}/items`, items); 
+    },
 }
+
+
+

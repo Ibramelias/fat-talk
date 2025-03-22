@@ -1,38 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import { Modal, Text, TouchableOpacity, View, Alert, TextInput, StyleSheet, Button } from 'react-native';
 import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
 import { Checkbox } from 'react-native-paper';
+import API from '../../src/APIs/API';
 
 
-
-export default function SellItemsModal({ sellModal, setSellModal }) {
-
-    const [desc, setDesc] = useState('');
-    const [phoneChecked, setPhoneChecked] = useState(false);
-    const [emailChecked, setEmailChecked] = useState(false);
-    const [location, setLocation] = useState('')
-    const [itemPrice, setItemPrice] = useState(0)
-    const [image, setImage] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
-    const [items, setItems] = useState([
+// Define the initial state
+const initialState = {
+    desc: "",
+    phoneChecked: false,
+    emailChecked: false,
+    location: "",
+    itemPrice: 0,
+    image: null,
+    open: false,
+    value: null,
+    items: [
         { label: "Appliances", value: "appliances" },
         { label: "Car", value: "car" },
         { label: "Mobile", value: "mobile" },
         { label: "Video Games", value: "video games" },
         { label: "Cloth", value: "cloth" },
-    ]);
+    ],
+};
+
+// Reducer function to handle state changes
+const reducer = (state, action) => {
+    switch (action.type) {
+        case "SET_DESC":
+            return { ...state, desc: action.payload };
+        case "SET_PHONE_CHECKED":
+            return { ...state, phoneChecked: action.payload };
+        case "SET_EMAIL_CHECKED":
+            return { ...state, emailChecked: action.payload };
+        case "SET_LOCATION":
+            return { ...state, location: action.payload };
+        case "SET_ITEM_PRICE":
+            return { ...state, itemPrice: action.payload };
+        case "SET_IMAGE":
+            return { ...state, image: action.payload };
+        case "SET_OPEN":
+            return { ...state, open: action.payload };
+        case "SET_VALUE":
+            return { ...state, value: action.payload };
+        default:
+            return state;
+    }
+};
 
 
-    const handleTextChange = (text) => {
-        console.log("New text:", text); // Log the actual text value
-        setDesc(text); // Update state correctly
+export default function SellItemsModal({ sellModal, setSellModal, gettingData }) {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    // Function to handle API submission
+    const handleSubmit = async () => {
+        const newItem = {
+            Description: state.desc,
+            Price: state.itemPrice,
+            Location: state.location,
+            ProductType: state.value,
+            Image: "https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
+            UserId: 1
+        };
+        try {
+            const response = await API.saveNewItem('1', newItem);
+            // Alert.alert("Success", "Data sent successfully!");
+            gettingData();
+            setSellModal(false);
+        } catch (error) {
+            Alert.alert("Error", "Failed to send data.");
+        }
     };
-    console.log("Hello Descccc", desc, items)
-    
+
     // Function to pick an image
     const pickImage = async () => {
         // Ask for permissions
@@ -88,34 +130,32 @@ export default function SellItemsModal({ sellModal, setSellModal }) {
                     {/* <Text style={styles.modalText}>Sell HEREEEEE</Text> */}
                     <View style={styles.container}>
                         <DropDownPicker
-                            open={open}
-                            value={value}
-                            items={items}
-                            setOpen={setOpen}
-                            setValue={setValue}
-                            setItems={setItems}
+                            open={state.open}
+                            value={state.value}
+                            items={state.items}
+                            setOpen={(open) => dispatch({ type: "SET_OPEN", payload: open })}
+                            setValue={(callback) => dispatch({ type: "SET_VALUE", payload: callback(state.value) })}
+                            setItems={(callback) => dispatch({ type: "SET_ITEMS", payload: callback(state.items) })}
                             placeholder="Select a category"
-                            style={styles.dropdown}
-                            dropDownContainerStyle={styles.dropdownContainer}
-                            listItemContainerStyle={styles.listItem} // 
                         />
                     </View>
-                    {/* Image Upload Section */}
-                    <View style={{ alignItems: 'center', borderWidth: 1, borderColor: '#d3d3d3', width: 350, padding: 30, borderRadius: 5 }}>
-                        <Text style={styles.label}>Upload a photo</Text>
-                        <Button title="Choose Image" onPress={pickImage} />
-                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 10 }} />}
-                    </View>
 
-                    {/* Description  Section */}
+                    {/* Image Upload */}
+                    <View style={{ alignItems: "center", borderWidth: 1, borderColor: "#d3d3d3", width: 350, padding: 30, borderRadius: 5, marginTop: 20 }}>
+                        <Text>Upload a photo</Text>
+                        <Button title="Choose Image" onPress={pickImage} />
+                        {state.image && <Image source={{ uri: state.image }} style={{ width: 200, height: 200, marginTop: 10 }} />}
+                    </View>Í
+
+                    {/* Description Input */}
                     <View style={styles.container}>
                         <TextInput
                             style={styles.textArea}
                             placeholder="Enter your description..."
-                            multiline={true} // Enables multi-line input
-                            numberOfLines={4} // Initial height (optional)
-                            value={desc}
-                            onChangeText={handleTextChange}
+                            multiline={true}
+                            numberOfLines={4}
+                            value={state.desc}
+                            onChangeText={(text) => dispatch({ type: "SET_DESC", payload: text })}
                         />
                     </View>
 
@@ -123,12 +163,13 @@ export default function SellItemsModal({ sellModal, setSellModal }) {
                     {/* Price & Location  Section */}
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View style={styles.PriceContainer}>
+
                             {/* Price Input */}
                             <TextInput
                                 style={styles.input}
-                                placeholder="Sell for? 'Price"
-                                value={itemPrice}
-                                onChangeText={setItemPrice}
+                                placeholder="Sell for? Price"
+                                value={state.itemPrice}
+                                onChangeText={(text) => dispatch({ type: "SET_ITEM_PRICE", payload: text })}
                                 keyboardType="numeric"
                             />
 
@@ -137,7 +178,7 @@ export default function SellItemsModal({ sellModal, setSellModal }) {
                                 <TextInput
                                     style={styles.locationInput}
                                     placeholder="Location"
-                                    value={location}
+                                    value={state.location}
                                     editable={false} // Prevent manual editing
                                 />
                                 <TouchableOpacity onPress={getLocation} style={styles.iconButton}>
@@ -148,28 +189,30 @@ export default function SellItemsModal({ sellModal, setSellModal }) {
                     </View>
 
 
-                    <View style={{ marginVertical: 20, padding: 10, }}>
+                    <View style={{ marginVertical: 20, padding: 10 }}>
                         <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 10 }}>
                             How would you like to be contacted?
                         </Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             {/* Phone Option */}
                             <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 8 }}>
                                 <View style={{ borderWidth: 1, borderColor: "lightgray", borderRadius: 5, padding: 1 }}>
                                     <Checkbox
-                                        status={phoneChecked ? "checked" : "unchecked"}
-                                        onPress={() => setPhoneChecked(!phoneChecked)}
+                                        status={state.phoneChecked ? "checked" : "unchecked"}
+                                        onPress={() => dispatch({ type: "SET_PHONE_CHECKED", payload: !state.phoneChecked })}
                                         color={"#007bff"} // Blue checkbox when checked
                                     />
                                 </View>
                                 <Text style={{ fontSize: 14, marginLeft: 10 }}>Phone</Text>
                             </View>
+
                             {/* Email Option */}
-                            <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 8, }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 8 }}>
                                 <View style={{ borderWidth: 1, borderColor: "lightgray", borderRadius: 5, padding: 1 }}>
                                     <Checkbox
-                                        status={emailChecked ? "checked" : "unchecked"}
-                                        onPress={() => setEmailChecked(!emailChecked)}
+                                        status={state.emailChecked ? "checked" : "unchecked"}
+                                        onPress={() => dispatch({ type: "SET_EMAIL_CHECKED", payload: !state.emailChecked })}
                                         color={"#007bff"}
                                     />
                                 </View>
@@ -181,7 +224,7 @@ export default function SellItemsModal({ sellModal, setSellModal }) {
 
 
                     {/* Save Button */}
-                    <TouchableOpacity onPress={() => setSellModal(false)}>
+                    <TouchableOpacity onPress={() => handleSubmit()}>
                         <Text style={styles.saveButton}>Publish it</Text>
                     </TouchableOpacity>
 

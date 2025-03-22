@@ -26,23 +26,25 @@ export default function ItemsPage({ navigation }) {
         setSearchValue(e.target.vaue)
     }
 
-    useEffect(() => {
-        async function gettingData() {
-            try {
-                const res = await API.callAllItems();
-                const initialData = res.data.slice(0, 50);
-                setData(initialData);
+    // getting a list of items ///
+    async function gettingData() {
+        try {
+            const res = await API.callAllItems();
+            const initialData = res.data.slice(0, 50);
+            setData(initialData);
 
-                // Initialize count state for each item with `0`
-                const initialCounts = {};
-                initialData.forEach((item) => {
-                    initialCounts[item.id] = 0;
-                });
-                setCount(initialCounts);
-            } catch (error) {
-                console.log(error);
-            }
+            // Initialize count state for each item with `0`
+            const initialCounts = {};
+            initialData.forEach((item) => {
+                initialCounts[item.id] = 0;
+            });
+            setCount(initialCounts);
+        } catch (error) {
+            console.log(error);
         }
+    }
+
+    useEffect(() => {
         gettingData();
     }, []);
 
@@ -80,25 +82,10 @@ export default function ItemsPage({ navigation }) {
                 <SellItemsModal
                     sellModal={sellModal}
                     setSellModal={setSellModal}
+                    gettingData={gettingData}
                 />
             )}
 
-            {/* Sell Item Modal */}
-            {/* <Modal
-                visible={sellModal}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={() => setSellModal(false)}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>Sell Your Item</Text>
-                        <TouchableOpacity onPress={() => setSellModal(false)}>
-                            <Text style={styles.closeButton}>Close</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal> */}
             {/* Floating Sell Button */}
             <TouchableOpacity
                 style={styles.sellItemBtn}
