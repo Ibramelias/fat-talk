@@ -145,7 +145,7 @@ export default function SellItemsModal({ sellModal, setSellModal, gettingData })
                         <Text>Upload a photo</Text>
                         <Button title="Choose Image" onPress={pickImage} />
                         {state.image && <Image source={{ uri: state.image }} style={{ width: 200, height: 200, marginTop: 10 }} />}
-                    </View>Í
+                    </View>
 
                     {/* Description Input */}
                     <View style={styles.container}>

@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, TextInput, TouchableWithoutFeedback, Text, Button, StyleSheet } from 'react-native'
+import NewUser from '../components/NewUser'
 
 export default function MorePage() {
+
+    const [signUp, setSignUp] = useState(false)
     return (
         <View style={styles.container}>
+            {signUp && (
+                <NewUser
+                    signUp={signUp}
+                    setSignUp={setSignUp}
+                />
+            )}
             <Text style={styles.text}>Welcome, Login</Text>
             <View style={styles.inputContainer}>
                 <TextInput
@@ -20,7 +29,7 @@ export default function MorePage() {
                         <Text style={styles.btnText}>Log in</Text>
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback><Text style={styles.btnText}>Don't have an account?</Text></TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => setSignUp(true)}><Text style={styles.btnText}>Don't have an account?</Text></TouchableWithoutFeedback>
             </View>
 
         </View>
