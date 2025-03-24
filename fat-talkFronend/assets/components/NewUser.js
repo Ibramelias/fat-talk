@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import { Modal, Text, TouchableWithoutFeedback, View, TextInput, StyleSheet, Button } from 'react-native';
+import API from '../../src/APIs/API';
 
 const signUpForm = {
     userName: '',
@@ -9,23 +10,6 @@ const signUpForm = {
     consfirmPass: '',
     errors: {}
 }
-
-
-// const reducer = (state, action) => {
-//     switch (action.type) {
-//         case 'SET_UserName':
-//             return { ...state, userName: action.payload };
-//         case 'SET_EMAIL':
-//             return { ...state, email: action.payload };
-//         case 'SET_PHONE':
-//             return { ...state, phone: action.payload };
-//         case 'SET_PASSWORD':
-//             return { ...state, password: action.palyload };
-//         case 'SET_CONFIRMPASS':
-//             return { ...state, consfirmPass: action.palyload }
-//     }
-// }
-
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -67,7 +51,6 @@ export default function NewUser({ signUp, setSignUp }) {
         if (state.password.length < 6) {
             errors.password = 'Password must be at least 6 characters';
         }
-
         if (state.password !== state.confirmPass) {
             errors.confirmPass = 'Passwords do not match';
         }
@@ -76,15 +59,26 @@ export default function NewUser({ signUp, setSignUp }) {
     };
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const errors = validateForm(state);
         if (Object.keys(errors).length > 0) {
             dispatch({ type: 'SET_ERRORS', payload: errors });
         } else {
-            console.log('Form submitted successfully', state);
+            const newUser = {
+                userName: state.userName,
+                email: state.email,
+                phone: state.phone,
+                password: state.password,
+                confirmPass: state.confirmPass
+            };
+            try {
+                const response = await API.createNewUser(newUser);
+                alert("You are all set")
+            } catch (err) {
+                alert("ERRRORRRRRR")
+            }
         }
     };
-
 
 
     return (
