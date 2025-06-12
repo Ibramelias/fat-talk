@@ -74,6 +74,7 @@ export default function NewUser({ signUp, setSignUp }) {
             try {
                 const response = await API.createNewUser(newUser);
                 alert("You are all set")
+                setSignUp(false)
             } catch (err) {
                 alert("ERRRORRRRRR")
             }
@@ -147,6 +148,7 @@ export default function NewUser({ signUp, setSignUp }) {
                     </View>
                 </View>
             </View>
+            <TouchableWithoutFeedback onPress={() => setSignUp(true)}><Text style={styles.btnText}>Cancel</Text></TouchableWithoutFeedback>
         </Modal>
     )
 }

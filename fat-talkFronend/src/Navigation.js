@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../assets/screens/home';
 import OrderPage from '../assets/screens/orderPage';
 import PointsPage from '../assets/screens/pointsPage';
-import MorePage from '../assets/screens/morePage';
+import Profile from '../assets/screens/morePage';
 import ItemsPage from '../assets/screens/itemsPage';
 import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -46,7 +46,7 @@ export default function Navigation() {
         <Tab.Screen name="Order" component={OrderPage} />
         <Tab.Screen name="Itmes" component={ItemsPage} /> 
         <Tab.Screen name="Earn Points" component={PointsPage} /> 
-        <Tab.Screen name="More" component={MorePage} /> 
+        <Tab.Screen name="More" component={Profile} /> 
         {/* <Tab.Screen name="Gifs" component={ContactUs} /> */}
       </Tab.Navigator>
     </NavigationContainer>

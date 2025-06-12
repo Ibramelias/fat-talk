@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, TextInput, TouchableWithoutFeedback, Text, Button, StyleSheet } from 'react-native'
 import NewUser from '../components/NewUser'
 
-export default function MorePage() {
+export default function Profile() {
 
     const [signUp, setSignUp] = useState(false)
     return (
