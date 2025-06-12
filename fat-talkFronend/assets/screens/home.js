@@ -35,11 +35,26 @@ export default function Home({ navigation }) {
 
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            <View style={styles.Container}>
+            <View>
                 <Text>Welcome to quacka marketPlace</Text>
+                <View style={styles.loginContianer}>
+                    <TouchableOpacity
+                        style={styles.signIn}
+                        onPress={() => handleIncrement(item.id)}
+                    >
+                        <Text>Sign in</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.signUp}
+                        onPress={() => handleIncrement(item.id)}
+                    >
+                        <Text>Sign up</Text>
+                    </TouchableOpacity>
+
+                </View>
                 <Video
                     source={require('../media/sneakers.mp4')}
-                    style={{ width: '98%', height: 650 }}
+                    style={{ width: '98%', height: 650, borderRadius: 5 }}
                     // useNativeControls
                     resizeMode="cover"
                     shouldPlay
@@ -224,11 +239,14 @@ export default function Home({ navigation }) {
 
 
 const styles = StyleSheet.create({
-    container: {
-        // flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+    loginContianer: {
+        width: '97%',
+        marginVertical: 20, 
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: 'lightgray',
+
     },
 
     BtnContainer: {
@@ -314,24 +332,6 @@ const styles = StyleSheet.create({
         fontWeight: 600,
         marginLeft: 10,
     },
-    sellItemBtn: {
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-        backgroundColor: '#007bff', // Change to a visible color
-        padding: 15,
-        borderRadius: 50,
-        width: 60,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000,
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-    },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -355,6 +355,22 @@ const styles = StyleSheet.create({
         marginTop: 10,
         color: '#007bff',
         fontWeight: 'bold',
+    },
+    signIn: {
+        borderRadius: 3,
+        margin: 5,
+        padding: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFC72C',
+    },
+    signUp: {
+        borderRadius: 3,
+        margin: 5,
+        padding: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'gray',
     },
 })
 
