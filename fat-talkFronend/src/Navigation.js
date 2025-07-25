@@ -10,6 +10,8 @@ import ItemsPage from '../assets/screens/itemsPage';
 import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { StatusBar } from 'expo-status-bar';
+
 
 // const Stack  = createStackNavigator();
 const Tab  = createBottomTabNavigator();
@@ -18,6 +20,7 @@ const Tab  = createBottomTabNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer style={styles.navContainer}>
+       <StatusBar style="dark" /> 
       <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -39,6 +42,7 @@ export default function Navigation() {
         },
         tabBarActiveTintColor: '#FFC72C',
         tabBarInactiveTintColor: 'gray',
+        headerShown: false,
         tabBarShowLabel: false, // Hide labels if preferred
       })}
     >

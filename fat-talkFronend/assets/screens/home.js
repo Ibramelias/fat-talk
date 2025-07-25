@@ -1,5 +1,5 @@
 import React, { useState, useEffect, use } from 'react'
-import { View, Text, SafeAreaView, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, Image, StyleSheet, TouchableOpacity, ScrollView, handleIncrement } from 'react-native'
 import Navigation from '../../src/Navigation'
 import { Video } from 'expo-av'
 import API from '../../src/APIs/API'
@@ -40,13 +40,13 @@ export default function Home({ navigation }) {
                 <View style={styles.loginContianer}>
                     <TouchableOpacity
                         style={styles.signIn}
-                        onPress={() => handleIncrement(item.id)}
+                        onPress={() => handleIncrement(items.id)}
                     >
                         <Text>Sign in</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.signUp}
-                        onPress={() => handleIncrement(item.id)}
+                        onPress={() => handleIncrement(items.id)}
                     >
                         <Text>Sign up</Text>
                     </TouchableOpacity>
