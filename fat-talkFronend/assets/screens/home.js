@@ -4,7 +4,9 @@ import Navigation from '../../src/Navigation'
 import { Video } from 'expo-av'
 import API from '../../src/APIs/API'
 
+
 export default function Home({ navigation }) {
+    // const navigation = useNavigation();
 
     const [items, setItems] = useState([]);
 
@@ -36,11 +38,12 @@ export default function Home({ navigation }) {
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View>
-                <Text>Welcome to quacka marketPlace</Text>
+                <View style={{marginTop: "15%"}}>
+                <Text style={{fontSize: "25", fontWeight: 700}}>Quaka Marketplace</Text>
                 <View style={styles.loginContianer}>
                     <TouchableOpacity
                         style={styles.signIn}
-                        onPress={() => handleIncrement(items.id)}
+                         onPress={() => navigation.navigate('More')} // Navigate to Profile ta
                     >
                         <Text>Sign in</Text>
                     </TouchableOpacity>
@@ -50,6 +53,7 @@ export default function Home({ navigation }) {
                     >
                         <Text>Sign up</Text>
                     </TouchableOpacity>
+                </View>
 
                 </View>
                 <Video
@@ -241,7 +245,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     loginContianer: {
         width: '97%',
-        marginVertical: 20, 
+        marginVertical: 5, 
         padding: 10,
         borderWidth: 1,
         borderRadius: 5,
