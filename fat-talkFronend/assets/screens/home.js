@@ -38,22 +38,16 @@ export default function Home({ navigation }) {
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View>
-                <View style={{marginTop: "15%"}}>
-                <Text style={{fontSize: "25", fontWeight: 700}}>Quaka Marketplace</Text>
-                <View style={styles.loginContianer}>
-                    <TouchableOpacity
-                        style={styles.signIn}
-                         onPress={() => navigation.navigate('More')} // Navigate to Profile ta
-                    >
-                        <Text>Sign in</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.signUp}
-                        onPress={() => handleIncrement(items.id)}
-                    >
-                        <Text>Sign up</Text>
-                    </TouchableOpacity>
-                </View>
+                <View style={{ marginTop: "15%" }}>
+                    <Text style={{ fontSize: "25", fontWeight: 700 }}>Quaka Marketplace</Text>
+                    <View style={styles.loginContianer}>
+                        <TouchableOpacity
+                            style={styles.signIn}
+                            onPress={() => navigation.navigate('More')} // Navigate to Profile ta
+                        >
+                            <Text>Sign in</Text>
+                        </TouchableOpacity>
+                    </View>
 
                 </View>
                 <Video
@@ -65,177 +59,179 @@ export default function Home({ navigation }) {
                     isLooping
                 />
                 {/* <ScrollView> */}
-                <Text>Shop Video Games</Text>
-                <SafeAreaView>
-                    <View style={styles.gridContainer}>
-                        {items
-                            .filter(item => item.productType === "video games")
-                            .map(item => (
-                                <View key={item.id} style={styles.dataContainer}>
-                                    <View style={styles.imageContainer}>
-                                        <Image
-                                            source={{
-                                                uri: "https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
-                                            }}
-                                            style={styles.image}
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.likeButton}
-                                            onPress={() => handleLike(item.id)}
-                                        >
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={{ marginTop: 10, gap: 5 }}>
-                                        <Text style={{ fontWeight: "600", fontSize: 14 }}>
-                                            {item.description}
-                                        </Text>
-                                        <Text style={{ fontWeight: "400", fontSize: 12 }}>
-                                            {item.description}
-                                        </Text>
-                                        <View
-                                            style={{
-                                                marginTop: 10,
-                                                flexDirection: "row",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                            }}
-                                        >
-                                            <Text style={{ fontSize: 14, color: "gray", fontWeight: "500" }}>
-                                                ${item.price}
+                <View style={{ marginTop: "20" }}>
+
+                    <Text style={styles.categoryHeader}>Shop Video Games</Text>
+                    <SafeAreaView>
+                        <View style={styles.gridContainer}>
+                            {items
+                                .filter(item => item.productType === "video games")
+                                .map(item => (
+                                    <View key={item.id} style={styles.dataContainer}>
+                                        <View style={styles.imageContainer}>
+                                            <Image
+                                                source={{
+                                                    uri: "https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
+                                                }}
+                                                style={styles.image}
+                                            />
+                                            <TouchableOpacity
+                                                style={styles.likeButton}
+                                                onPress={() => handleLike(item.id)}
+                                            >
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ marginTop: 10, gap: 5 }}>
+                                            <Text style={{ fontWeight: "600", fontSize: 14 }}>
+                                                {item.description}
                                             </Text>
                                             <Text style={{ fontWeight: "400", fontSize: 12 }}>
-                                                {item.location}
+                                                {item.description}
                                             </Text>
+                                            <View
+                                                style={{
+                                                    marginTop: 10,
+                                                    flexDirection: "row",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: 14, color: "gray", fontWeight: "500" }}>
+                                                    ${item.price}
+                                                </Text>
+                                                <Text style={{ fontWeight: "400", fontSize: 12 }}>
+                                                    {item.location}
+                                                </Text>
+                                            </View>
+                                        </View>
+
+                                        <View style={styles.btnContainer}>
+                                            <TouchableOpacity
+                                                style={styles.buyBtn}
+                                                onPress={() => handleIncrement(item.id)}
+                                            >
+                                                <Text>Add to cart</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
+                                ))}
+                        </View>
+                    </SafeAreaView>
 
-                                    <View style={styles.btnContainer}>
-                                        <TouchableOpacity
-                                            style={styles.buyBtn}
-                                            onPress={() => handleIncrement(item.id)}
-                                        >
-                                            <Text>Add to cart</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            ))}
-                    </View>
-                </SafeAreaView>
-
-                <Text>Shop Cars</Text>
-                <SafeAreaView>
-                    <View style={styles.gridContainer}>
-                        {items
-                            .filter(item => item.productType === "car")
-                            .map(item => (
-                                <View key={item.id} style={styles.dataContainer}>
-                                    <View style={styles.imageContainer}>
-                                        <Image
-                                            source={{
-                                                uri: "https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
-                                            }}
-                                            style={styles.image}
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.likeButton}
-                                            onPress={() => handleLike(item.id)}
-                                        >
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={{ marginTop: 10, gap: 5 }}>
-                                        <Text style={{ fontWeight: "600", fontSize: 14 }}>
-                                            {item.description}
-                                        </Text>
-                                        <Text style={{ fontWeight: "400", fontSize: 12 }}>
-                                            {item.description}
-                                        </Text>
-                                        <View
-                                            style={{
-                                                marginTop: 10,
-                                                flexDirection: "row",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                            }}
-                                        >
-                                            <Text style={{ fontSize: 14, color: "gray", fontWeight: "500" }}>
-                                                ${item.price}
+                    <Text style={styles.categoryHeader}>Shop Cars</Text>
+                    <SafeAreaView>
+                        <View style={styles.gridContainer}>
+                            {items
+                                .filter(item => item.productType === "car")
+                                .map(item => (
+                                    <View key={item.id} style={styles.dataContainer}>
+                                        <View style={styles.imageContainer}>
+                                            <Image
+                                                source={{
+                                                    uri: "https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
+                                                }}
+                                                style={styles.image}
+                                            />
+                                            <TouchableOpacity
+                                                style={styles.likeButton}
+                                                onPress={() => handleLike(item.id)}
+                                            >
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ marginTop: 10, gap: 5 }}>
+                                            <Text style={{ fontWeight: "600", fontSize: 14 }}>
+                                                {item.description}
                                             </Text>
                                             <Text style={{ fontWeight: "400", fontSize: 12 }}>
-                                                {item.location}
+                                                {item.description}
                                             </Text>
+                                            <View
+                                                style={{
+                                                    marginTop: 10,
+                                                    flexDirection: "row",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: 14, color: "gray", fontWeight: "500" }}>
+                                                    ${item.price}
+                                                </Text>
+                                                <Text style={{ fontWeight: "400", fontSize: 12 }}>
+                                                    {item.location}
+                                                </Text>
+                                            </View>
+                                        </View>
+
+                                        <View style={styles.btnContainer}>
+                                            <TouchableOpacity
+                                                style={styles.buyBtn}
+                                                onPress={() => handleIncrement(item.id)}
+                                            >
+                                                <Text>Add to cart</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
+                                ))}
+                        </View>
+                    </SafeAreaView>
 
-                                    <View style={styles.btnContainer}>
-                                        <TouchableOpacity
-                                            style={styles.buyBtn}
-                                            onPress={() => handleIncrement(item.id)}
-                                        >
-                                            <Text>Add to cart</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            ))}
-                    </View>
-                </SafeAreaView>
-
-                <Text>Shop Laptops</Text>
-                <SafeAreaView>
-                    <View style={styles.gridContainer}>
-                        {items
-                            .filter(item => item.productType === "laptop")
-                            .map(item => (
-                                <View key={item.id} style={styles.dataContainer}>
-                                    <View style={styles.imageContainer}>
-                                        <Image
-                                            source={{
-                                                uri: "https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
-                                            }}
-                                            style={styles.image}
-                                        />
-                                        <TouchableOpacity
-                                            style={styles.likeButton}
-                                            onPress={() => handleLike(item.id)}
-                                        >
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={{ marginTop: 10, gap: 5 }}>
-                                        <Text style={{ fontWeight: "600", fontSize: 14 }}>
-                                            {item.description}
-                                        </Text>
-                                        <Text style={{ fontWeight: "400", fontSize: 12 }}>
-                                            {item.description}
-                                        </Text>
-                                        <View
-                                            style={{
-                                                marginTop: 10,
-                                                flexDirection: "row",
-                                                alignItems: "center",
-                                                justifyContent: "space-between",
-                                            }}
-                                        >
-                                            <Text style={{ fontSize: 14, color: "gray", fontWeight: "500" }}>
-                                                ${item.price}
+                    <Text style={styles.categoryHeader}>Shop Laptops</Text>
+                    <SafeAreaView>
+                        <View style={styles.gridContainer}>
+                            {items
+                                .filter(item => item.productType === "laptop")
+                                .map(item => (
+                                    <View key={item.id} style={styles.dataContainer}>
+                                        <View style={styles.imageContainer}>
+                                            <Image
+                                                source={{
+                                                    uri: "https://pictures.dealer.com/l/lamborghinisanantoniosa/0156/5367882396cd58dc319f439f802b64edx.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
+                                                }}
+                                                style={styles.image}
+                                            />
+                                            <TouchableOpacity
+                                                style={styles.likeButton}
+                                                onPress={() => handleLike(item.id)}
+                                            >
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ marginTop: 10, gap: 5 }}>
+                                            <Text style={{ fontWeight: "600", fontSize: 14 }}>
+                                                {item.description}
                                             </Text>
                                             <Text style={{ fontWeight: "400", fontSize: 12 }}>
-                                                {item.location}
+                                                {item.description}
                                             </Text>
+                                            <View
+                                                style={{
+                                                    marginTop: 10,
+                                                    flexDirection: "row",
+                                                    alignItems: "center",
+                                                    justifyContent: "space-between",
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: 14, color: "gray", fontWeight: "500" }}>
+                                                    ${item.price}
+                                                </Text>
+                                                <Text style={{ fontWeight: "400", fontSize: 12 }}>
+                                                    {item.location}
+                                                </Text>
+                                            </View>
+                                        </View>
+
+                                        <View style={styles.btnContainer}>
+                                            <TouchableOpacity
+                                                style={styles.buyBtn}
+                                                onPress={() => handleIncrement(item.id)}
+                                            >
+                                                <Text>Add to cart</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
-
-                                    <View style={styles.btnContainer}>
-                                        <TouchableOpacity
-                                            style={styles.buyBtn}
-                                            onPress={() => handleIncrement(item.id)}
-                                        >
-                                            <Text>Add to cart</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            ))}
-                    </View>
-                </SafeAreaView>
-
+                                ))}
+                        </View>
+                    </SafeAreaView>
+                </View>
             </View>
         </ScrollView>
     )
@@ -244,13 +240,9 @@ export default function Home({ navigation }) {
 
 const styles = StyleSheet.create({
     loginContianer: {
-        width: '97%',
-        marginVertical: 5, 
-        padding: 10,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: 'lightgray',
-
+        width: '100%',
+        marginVertical: 5,
+        padding: 5,
     },
 
     BtnContainer: {
@@ -375,6 +367,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'gray',
+    },
+
+    categoryHeader: {
+        fontSize: 23,
+        fontWeight: 600,
+        marginVertical: 10,
+
     },
 })
 
